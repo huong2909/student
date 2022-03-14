@@ -10,8 +10,8 @@
     <script src="student.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg "style="background-color: aqua">
-    <a class="navbar-brand" href="#">Home</a>
+<nav class="navbar navbar-expand-lg " style="background-color: aqua">
+    <a class="navbar-brand" href="/index.html">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,10 +19,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Register<span class="sr-only">(current)</span></a>
+                <a id="register" class="nav-link" href="formlogin/register.html">Register<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a onclick="logout()" id="login" class="nav-link" >logout<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a id="username" class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,8 +49,10 @@
     </div>
 </nav>
 
+
+
 <!--end navbar-->
-<h1>Quản lý học sinh</h1>
+<h1 id="giday">Quản lý học sinh</h1>
 <table border="1px" width="100%" style="border-collapse: collapse " class="table">
     <tr>
         <th>STT</th>
@@ -183,6 +188,10 @@
 </footer>
 <!-- Footer -->
 <script>
+    if (window.localStorage.getItem("user_key")!=null){
+        document.getElementById("register").innerHTML=""
+        document.getElementById("username").innerHTML= window.localStorage.getItem("user_key")
+    }
     let student1 = new Student(1,"Long",25);
     let student2 = new Student(2,"Tây",26);
     let studentList =[]
@@ -190,6 +199,10 @@
     studentList.push(student2)
 
     function showList() {
+        if (window.localStorage.getItem("user_key")==null) {
+            document.getElementById("giday").innerHTML = "pleas login"
+            return
+        }
         let drawTable ='';
         for (let i=0;i<studentList.length;i++){
             drawTable +=`<tr><td>${studentList[i].id}</td>
@@ -197,6 +210,10 @@
                              <td>${studentList[i].age}</td>
                              </tr>`
         } document.getElementById('drawTable').innerHTML = drawTable;
+    }
+    function logout() {
+        window.localStorage.clear()
+        window.location.reload()
     }
     showList()
 </script>
